@@ -45,6 +45,39 @@ A^C = 1101
 1101 ^ B = 0111
 */
 
+function findMissingItem(subject, n) {
+	if(!Array.isArray(subject) || !subject.length ) return null;
+	let missing = subject[0];
+	for(let i=1; i<subject.length; i++){
+		missing = missing ^ subject[i];	
+	}
+	for(let i=1; i<=n; i++){
+		missing = missing ^ i;
+	}
+	return missing;
+}
+
+function findMissingItem2(subject, n) {
+	return ((n*(n+1))/2) - subject.reduce((a,i)=>a+i,0);
+}
+
+function tests() {
+	[
+		[findMissingItem, [[1,2], 3], 3],
+		[findMissingItem, [[1, 2, 3, 4, 5, 6, 7], 7], 0],
+		[findMissingItem, [[2, 7, 4, 3, 6, 5, 8], 8], 1],
+		[findMissingItem2, [[1,2], 3], 3],
+		[findMissingItem2, [[1, 2, 3, 4, 5, 6, 7], 7], 0],
+		[findMissingItem2, [[2, 7, 4, 3, 6, 5, 8], 8], 1]
+	].forEach(test=>{
+		let result = test[0](...test[1]),
+			expected = test[2],
+			passed = result === expected;
+
+		console.log("Result '%s' expected '%s' -- ", result, expected, passed?'SUCCESS':'FAILED');
+	});
+}
+
 if (require.main === module) {
-	console.log('hello world');
+	tests();
 }
